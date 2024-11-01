@@ -1,39 +1,27 @@
 import { useState } from "react";
 import Card from "./Card";
 
-export default function Playground({setPlayers}) {
+export default function Playground({setPlayers, setCards, cards}) {
     const [wanted, setWanted] = useState('');
     const [isClickingAllowed, setIsClickingAllowed] = useState(true);
-    const [cards, setCards] = useState([
-        { sign: "😁", active: false, found: false, id: 1 },
-        { sign: "❌", active: false, found: false, id: 10 },
-        { sign: "❣", active: false, found: false, id: 6 },
-        { sign: "😁", active: false, found: false, id: 3 },
-        { sign: "☢", active: false, found: false, id: 11 },
-        { sign: "❌", active: false, found: false, id: 5 },
-        { sign: "❣", active: false, found: false, id: 7 },
-        { sign: "😎", active: false, found: false, id: 4 },
-        { sign: "💨", active: false, found: false, id: 8 },
-        { sign: "☢", active: false, found: false, id: 9 },
-        { sign: "😎", active: false, found: false, id: 2 },
-        { sign: "💨", active: false, found: false, id: 12 },
-    ]);
 
-    function compareCards(sign) {
-        setIsClickingAllowed(false);
-        const isEqual = sign === wanted;
+    function handleScore(isEqual) {
         setTimeout(() => {
             setCards((prevCards) => prevCards.map((card) => {
                 if( card.active !== true ) return card;
                 return {...card, active: false, found: isEqual ? true : false}
             }));
-            setIsClickingAllowed(true);
             setPlayers((prevPlayers) => prevPlayers.map((player) => {
-                if( player.active !== true ) return {...player, active: true};
-                console.log(player.score + 1);
-                return {...player, active: false, score: isEqual ? player.score + 1 : player.score}
+                if( player.active !== true ) return {...player, active: isEqual ? false : true};
+                return {...player, active: isEqual ? true : false, score: isEqual ? player.score + 1 : player.score}
             }));
-        }, 500);
+            setIsClickingAllowed(true);
+        }, isEqual ? 200 : 2000);
+    }
+
+    function compareCards(sign) {
+        setIsClickingAllowed(false);
+        handleScore(sign === wanted);
     }
 
     function handleCardClick(sign, id) {
