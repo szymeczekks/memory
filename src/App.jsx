@@ -11,10 +11,7 @@ import getPlayers from "./utils/players";
 function App() {
   const [numberOfPairs, setNumberOfPairs] = useState(6);
   const [winner, setWinner] = useState()
-  const [players, setPlayers] = useState([
-    {id: 1, active: true, score: 0},
-    {id: 2, active: false, score: 0}
-  ]);
+  const [players, setPlayers] = useState(getPlayers());
   const [cards, setCards] = useState([]);
 
   function randomizeCards() {
@@ -37,6 +34,7 @@ function App() {
   
   useEffect(() => {
     setCards(randomizeCards());
+    setPlayers(getPlayers());
   },[numberOfPairs])
 
   function resetGame() {
