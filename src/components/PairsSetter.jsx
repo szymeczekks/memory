@@ -11,7 +11,7 @@ export default function PairsSetter({setter}) {
     }
 
     function saveNewPairs() {
-        setter(value);
+        setter(parseInt(value));
         setIsChanged(false);
     }
 

@@ -5,7 +5,7 @@ export default function EndGame({ winner, onEnd }) {
     return (
         winner && <>
          <p>Koniec gry! Wygrał gracz: {winner}</p>
-         <Button onClick={onEnd}>Reset</Button>
+         <Button onClick={onEnd}>Nowa gra</Button>
         </>
     )
 }

@@ -10,7 +10,7 @@ import getPlayers from "./utils/players";
 
 function App() {
   const [numberOfPairs, setNumberOfPairs] = useState(6);
-  const [winner, setWinner] = useState()
+  const [winner, setWinner] = useState(null)
   const [players, setPlayers] = useState(getPlayers());
   const [cards, setCards] = useState([]);
 
@@ -38,12 +38,14 @@ function App() {
   },[numberOfPairs])
 
   function resetGame() {
-    alert("RESET");
+    setCards(randomizeCards());
+    setPlayers(getPlayers());
+    setWinner(null)
   }
 
   useEffect(() => {
     const result = players.reduce((acc, current) => acc + current.score, 0);
-    numberOfPairs === result && setWinner(players.sort((a,b) => a.score + b.score)[0].id)
+    numberOfPairs === result && setWinner(players.sort((a,b) => b.score - a.score)[0].id)
   }, [players])
 
   return (
